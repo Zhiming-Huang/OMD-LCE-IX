@@ -1,0 +1,6 @@
+#！/bin/bash
+
+for file in $(ls ./)
+do 
+    epstool --copy --bbox $file $file
+done 
