@@ -3,9 +3,9 @@ LUC is a congestion control algorithm based on swap-regret-minimizing techniques
 
 ## Experiment: Emulation on Mininet
 The experiments are based on two tools, i.e., [CCP](https://ccp-project.github.io/) and [Mininet](http://mininet.org/). CCP is used to implement LUC, and Mininet is the emulation tool to run experiments.
-Furthermore, we recommend running the experiments on Linux kernel 5.4.0, as the recommended Linux kernel version of [CCP Kernel Datapath](https://github.com/ccp-project/ccp-kernel) is 5.4.0. 
+Furthermore, we recommend running the experiments on Linux kernel 5.4.0, as the recommended Linux kernel version of [CCP Kernel Datapath](https://github.com/ccp-project/ccp-kernel) is 5.13.12. 
 
-In the paper, we run Mninet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.4.0. BBR2 is not included in the Linux kernel and needs to be compiled and installed.
+In the paper, we run Mninet experiments to compare LUC with CUBIC and [BBR2](https://github.com/google/bbr/blob/v2alpha/README.md). CUBIC is the default congestion control algorithm in Linux Kernel 5.13.2. BBR2 is not included in the Linux kernel and needs to be compiled and installed.
 
 In the following, we give step-by-step instructions on how to run the experiments.
 
@@ -16,8 +16,8 @@ There are two ways to install BBR2:
 First, we need to install the tools for compilation:
 
 ```
-apt install -y build-essential libncurses5-dev git
-apt -y build-dep linux
+sudo apt install -y build-essential libncurses5-dev git
+sudo apt -y build-dep linux
 ```
 
 Then, download BBR2 and compile it by
@@ -114,11 +114,9 @@ sudo python3 luc.py
 Now, CCP-kernel will report statistics to LUC. LUC will decide on the congestion window/rate and pass it back to CCP-kernel.
 
 
-### Step 3: Install Mininet
-We need to install it from the source. First, get the source code by
-```
-git clone https://github.com/mininet/mininet
-```
+### Step 3: Install Mininet 2.3.0
+We need to install it from the source. First, get the source code from https://github.com/mininet/mininet/releases/tag/2.3.0
+
 Then, install it by using the script:
 ```
 cd mininet
@@ -161,7 +159,7 @@ We also use [Patheon](https://pantheon.stanford.edu/) to verify the performance 
 
 The setup and usage of Patheon can be found at https://github.com/StanfordSNR/pantheon. 
 
-As the offcial source code is end of support, we give a convenient instruction here on playing luc on Pantheon with a comparison to CUBIC, BBR2 and Vivace. We have configured those four algorithms in our forked repo for Pantheon with real-world traces at https://github.com/Zhiming-Huang/pantheon.
+As the offcial source code is end of support, we give a convenient instruction here on playing luc on Pantheon with a comparison to CUBIC, BBR2 and Vivace. We have configured those four algorithms in our forked repo for Pantheon with real-world traces at https://github.com/Zhiming-Huang/pantheon. The Vivace algorithm we used is the Linux kernel implementation at 
 
 
 To install dependencies, go to folder pantheon/tools, and run install_deps.sh.
@@ -173,7 +171,7 @@ src/experiments/setup.py --setup --all
 
 Go to folder src/experiments/, and  run locally with real-world traces:
 ```
-src/experiments/test.py local --all --uplink-trace Verizon-LTE-driving.up --downlink-trace Verizon-LTE-driving.down --run--times 5 
+src/experiments/test.py local --all --uplink-trace Verizon-LTE-driving.up --downlink-trace Verizon-LTE-driving.down --run-times 5 
 ```
 
 To visualize the results, go to folder src/analysis, and run
